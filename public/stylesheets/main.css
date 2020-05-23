@@ -1,0 +1,19 @@
+#search{
+    box-sizing: border-box;
+    border: 2px solid white;
+    border-radius: 4px;
+}
+
+.thumbnail img{
+  width: 100%;
+}
+
+.thumbnail{
+  padding:0;
+}
+
+#button-form{
+  display: inline;
+}
+
+

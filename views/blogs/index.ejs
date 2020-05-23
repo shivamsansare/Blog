@@ -1,0 +1,79 @@
+<%- include('../partials/header'); -%>
+
+
+<div class="container">
+    <header class="jumbotron camp-img" style="background-image:url(https://cdn.wionews.com/sites/default/files/styles/story_page/public/2019/04/10/89387-black-hole.JPG);">
+        <div class="container">
+            <div class="container" style="color:white;">
+                <h1><i class="fab fa-blogger"></i> Welcome to Blogger's Paradise</h1>
+                <p>View amazing blog's written by amazing blogger's</p>
+            </div>
+            <p style="margin-bottom: 0px"></p>
+            <div class="row container ml-auto">
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+                    <input type="text" name="search" id="search" placeholder="Search Blogs">
+                    <button class="btn btn-dark border-0" type="submit" id="searched" onclick="search()">
+                            <i class="fas fa-search" style="color:white;"></i>
+                    </button>
+            </div>
+            <div class="row container ml-auto">
+                <hr>
+                <p>
+                    <a class="btn btn-dark btn-nd" href="/blogs/new"><i class="fas fa-plus"></i> Add Blog</a>
+                </p>
+            </div>
+        </div>
+    </header>
+    
+    <div class="row text-center"  id="searching" style = "display:flex; flex-wrap: wrap;">
+        <% blogs.forEach(function(blog){ %>
+            <div class="col-md-3 col-sm-6 img">
+                <div class="img-thumbnail img-fluid">
+                    <img src="<%= blog.image %>" style="width: 100%">
+                    <div class="caption">
+                        <h4><%= blog.name %></h4>
+                    </div>
+                    <p>
+                        <a href="/blogs/<%= blog._id %>" class="btn btn-dark btn-sm">More Info</a>
+                    </p>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+
+</div>
+
+<script>
+
+    var enter=document.getElementById("search");
+        enter.addEventListener("keyup",function(event){
+        if(event.keyCode===13){
+        event.preventDefault();
+        document.getElementById("searched").click();
+        }
+    });
+
+    const search=()=>{
+
+        let filter=document.getElementById('search').value.toUpperCase();
+        let searching=document.getElementById('searching');
+        let img=searching.getElementsByClassName('img');
+        
+        for(var i=0;i<img.length;i++){
+            let h4=img[i].getElementsByTagName('h4')[0];
+            if(h4){
+                let textValue=h4.textContent || h4.innerHTML;
+                if(textValue.toUpperCase().indexOf(filter) > -1){
+                   img[i].style.display="";
+                }
+                else{
+                    img[i].style.display="None";
+                }
+            }
+        }
+    }
+
+
+</script>
+
+<%- include('../partials/footer'); -%></div>

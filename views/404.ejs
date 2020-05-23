@@ -1,0 +1,42 @@
+<!DOCTYPE html5>
+<html>
+	<head>
+		<title>Page Not Found!!</title>
+		<link rel="stylesheet" href="/stylesheets/main.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<style>
+			body{
+                background-image:url(https://res.cloudinary.com/yelpcampcloud/image/upload/c_scale,dpr_auto,f_auto,q_auto,w_auto/v1513519484/TVGe0Ef_el9ecd.jpg);
+                background-position: 50% 50%;
+                background-repeat: no-repeat;
+                background-size: cover;
+                height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class = "container d-flex justify-content-center 404" style = "margin-top : 10%">
+			<div class="jumbotron">
+				<center>
+					<div class="container">
+						<% if (error && error.length > 0) {%>
+						  <div class="alert alert-danger" role="alert">
+							<%= error %>
+						  </div>
+						<% } %>
+						<% if (success && success.length > 0) {%>
+						  <div class="alert alert-success" role="alert">
+							<%= success %>
+						  </div>
+						<% } %>
+					</div>   
+					<h1 class="display-4">404</h1>
+					<p class="lead">Page Not Found</p>
+					<hr class="my-4">
+					<p>The page you are trying to find no longer exists or has it's name changed.</p>
+					<a class="btn btn-primary btn-lg" href="/" role="button">Go Back to home page!!</a>
+				</center>
+			</div>
+		</div>
+	</body>
+</html>

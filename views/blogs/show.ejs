@@ -1,0 +1,109 @@
+<%- include('../partials/header'); -%>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+                
+            </div>
+            <div class="col-md-10">
+                <div class="thumbnail">
+                    <img class="image-responsive" src="<%= blog.image %>" style="width:50%">            
+                    <div class="caption-full">
+                        <h4><a><%= blog.name %></a></h4>
+                        <p><%= blog.description %></p>
+                        <p>
+                            <b><em>Written by <%= blog.author.username %></em></b>
+                        </p>
+                        <% if( currentUser && blog.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-xs btn-warning" href="/blogs/<%= blog._id %>/edit">Edit</a>
+                        <form id="button-form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form>
+                        <% } %>
+                    </div>
+                    <br>
+                </div>
+                
+                <div class="well">
+                    <div class="form-group form-inline row">
+                
+                        <div class="col-md-12">
+                            <form class="form-group" action="/blogs/<%= blog.id %>" method="POST">
+                                <textarea id="textarea" class="form-control" type="text" name="comment[text]" placeholder="Leave Comment" rows="1" cols="100" style="padding-bottom: 50px;" required></textarea>    
+                                <hr>
+                                <button class="btn btn-success border-0" type="submit" id="searched" style="margin-top: 10px;">
+                                        <i class="fas fa-plus" style="color:white;"></i>
+                                        Add Comment
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <hr>
+                        <% blog.comments.forEach(function(comment){ %>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong id="Edit2"><%= comment.author.username %></strong>
+                                    <!-- <p>
+                                        <%= comment.text %></p>
+                                    </p> -->
+                                    <span class="float-right">
+                                        <% if( currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                            <div class="col-md-12 form-inline">
+
+                                                <form id="Add" action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" style="margin-right: 5px;">
+                                                    <strong id="Add2"><%= comment.author.username %></strong>
+                                                    <textarea class="form-control" name="comment[text]" placeholder="Leave Comment" rows="0" cols="80" style="border-color:red" required><%= comment.text %></textarea>
+
+                                                    <button id="Add1" class="btn btn-xs btn-warning">Add</button>
+                                                </form>
+                                            
+                                                <button id="Edit1" class="btn btn-warning" style="margin-right: 5px;">Edit</button>
+
+                                            
+                                                <form id="button-form" action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                                    <button class="btn btn-xs btn-danger">Delete</button>
+                                                </form>
+
+                                            </div>
+                                            <% } %>                                    
+                                    </span>
+                                    <p id="Edit3">
+                                        <%= comment.text %></p>
+                                    </p>
+                                   
+                                </div>
+                                 
+                            </div>    
+                            <br>
+                            <br>               
+                        <% }) %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        
+        $(document).ready(function() {
+            $('#Add').hide();
+            $('#Add1').hide();
+            $('#Add2').hide();
+            $('#Add3').hide();
+            document.getElementById("textarea").style.borderColor="green";
+
+
+            $("#Edit1").click(function(){
+                $("#Edit1").hide();
+                $("#Edit2").hide();
+                $("#Edit3").hide();
+                $('#Add').show();
+                $('#Add1').show();
+                $('#Add2').show();
+            });
+        });
+
+
+    </script>
+
+<%- include('../partials/footer'); -%>

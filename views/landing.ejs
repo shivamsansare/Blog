@@ -1,0 +1,43 @@
+<!DOCTYPE html5>
+<html>
+	<head>
+		<title>Blogs</title>
+		<link rel="stylesheet" href="/stylesheets/main.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	</head>
+
+	<style>
+		body{
+		background-image: url(https://www.threegirlsmedia.com/wp-content/uploads/2019/08/3G.BloggingDosAndDonts.7.23.2017.jpg);
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 100%;
+		}
+	</style>
+
+	<body>
+		<div class = "container d-flex justify-content-center" style = "margin-top : 10%">
+			<div class="jumbotron">
+				<center>
+					<div class="container">
+						<% if (error && error.length > 0) {%>
+						  <div class="alert alert-danger" role="alert">
+							<%= error %>
+						  </div>
+						<% } %>
+						<% if (success && success.length > 0) {%>
+						  <div class="alert alert-success" role="alert">
+							<%= success %>
+						  </div>
+						<% } %>
+					</div>   
+					<h1 class="display-4">Blogger's Paradise</h1>
+					<p class="lead">Collection of Awesome Blogs</p>
+					<hr class="my-4">
+					<a class="btn btn-primary btn-lg" href="/blogs" role="button">Lets Go</a>
+				</center>
+			</div>
+		</div>
+	</body>
+</html>
