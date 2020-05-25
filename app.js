@@ -111,8 +111,8 @@ app.get("*",function(req,res){
     res.render("404")
 });
 
-const PORT=5000;
+//const PORT=5000;
 
-app.listen(PORT,process.env.IP,function(req,res){
+app.listen(process.env.PORT,process.env.IP,function(req,res){
     console.log("hello");
 });
