@@ -97,6 +97,7 @@ router.put("/:id",middleware.checkOwnership,function(req,res){
 });
 
 router.delete("/:id",middleware.checkOwnership,function(req,res){
+    
     Blog.findByIdAndRemove(req.params.id,function(err){
         if(err){
             res.redirect("/blogs");

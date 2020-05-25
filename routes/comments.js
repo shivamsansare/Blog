@@ -18,23 +18,23 @@ router.get("/:comment_id/edit",middleware.checkCommentOwnership,function(req,res
 });
 
 router.put("/:comment_id",middleware.checkCommentOwnership,function(req,res){
-    Comment.findByIdAndUpdate(req.params.comment_id,req.body.comment,function(err,updated){
+    Comment.findByIdAndUpdate(req.params.comment_id,{text: req.body.comment},function(err,updated){
         if(err){
             redirect("back");
         }
         else{
-            res.redirect("/blogs/"+req.params.id);
+            res.json({"status":"success"});
         }
     });
 });
 
 router.delete("/:comment_id",middleware.checkCommentOwnership,function(req,res){
-    Comment.findByIdAndRemove(req.params.comment_id,function(err){
+    Comment.findByIdAndRemove(req.params.comment_id,function(err,foundComment){
         if(err){
-            res.redirect("back");
+            res.render("landing");
         }
         else{
-            res.redirect("/blogs/"+req.params.id);
+           res.json({"status":"success"});
         }
     });
 });

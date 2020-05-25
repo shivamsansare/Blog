@@ -1,6 +1,6 @@
 <%- include('../partials/header'); -%>
 
-    <div class="container">
+    <div class="container" id="show">
         <div class="row">
             <div class="col-md-1">
                 
@@ -14,7 +14,7 @@
                         <p>
                             <b><em>Written by <%= blog.author.username %></em></b>
                         </p>
-                        <% if( currentUser && blog.author.id.equals(currentUser._id)){ %>
+                        <% if(currentUser && blog.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-xs btn-warning" href="/blogs/<%= blog._id %>/edit">Edit</a>
                         <form id="button-form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
@@ -39,44 +39,46 @@
                         </div>
                     </div>
                     <hr>
+                    <div class=container>
                         <% blog.comments.forEach(function(comment){ %>
-                            <div class="row">
+                            <div id="comment<%=comment._id%>" class="row">
                                 <div class="col-md-12">
+                                    <% if(comment){ %>
                                     <strong id="Edit2"><%= comment.author.username %></strong>
-                                    <!-- <p>
-                                        <%= comment.text %></p>
-                                    </p> -->
-                                    <span class="float-right">
-                                        <% if( currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                    <% } %>
+                                    <span class="float-right form-inline">
+                                        <% if( currentUser && comment && comment.author.id.equals(currentUser._id)){ %>
                                             <div class="col-md-12 form-inline">
+                                                
+                                                <!-- <form id="Add" action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" style="margin-right: 5px;"> -->
+                                                <textarea id="Add2<%=comment._id%>" class="form-control Add2" name="comment[text]" placeholder="Leave Comment" rows="0" cols="80" style="border-color:red; margin-right: 5px;" required><%= comment.text %></textarea>
 
-                                                <form id="Add" action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" style="margin-right: 5px;">
-                                                    <strong id="Add2"><%= comment.author.username %></strong>
-                                                    <textarea class="form-control" name="comment[text]" placeholder="Leave Comment" rows="0" cols="80" style="border-color:red" required><%= comment.text %></textarea>
+                                                <button id="Add1<%=comment._id%>" onclick="addComment('<%=comment._id%>','<%=blog._id%>')" class="btn btn-xs btn-warning Add1" style="margin-right: 5px;">Add</button>
+                                                <!-- </form> -->
 
-                                                    <button id="Add1" class="btn btn-xs btn-warning">Add</button>
-                                                </form>
+                                                <button id="Cancel1<%=comment._id%>" onclick="cancelComment('<%=comment._id%>')" class="btn btn-xs btn-danger Cancel1">Cancel</button>
+
                                             
-                                                <button id="Edit1" class="btn btn-warning" style="margin-right: 5px;">Edit</button>
+                                                <button id="Edit1<%=comment._id%>" onclick="editComment('<%=comment._id%>')" class="btn btn-warning" style="margin-right: 5px;">Edit</button>
 
+
+                                                <button id="button-form<%=comment._id%>" onclick="deleteComment('<%=comment._id%>','<%=blog._id%>')" class="btn btn-xs btn-danger">Delete</button>
                                             
-                                                <form id="button-form" action="/blogs/<%= blog._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                                    <button class="btn btn-xs btn-danger">Delete</button>
-                                                </form>
-
                                             </div>
                                             <% } %>                                    
                                     </span>
-                                    <p id="Edit3">
-                                        <%= comment.text %></p>
+                                    <% if(comment){ %>
+                                    <p id="Edit3<%=comment._id%>">
+                                        <%= comment.text %>
                                     </p>
-                                   
+                                   <% } %>
                                 </div>
                                  
                             </div>    
                             <br>
                             <br>               
                         <% }) %>
+                    </div>
                 </div>
             </div>
 
@@ -86,23 +88,69 @@
     <script>
         
         $(document).ready(function() {
-            $('#Add').hide();
-            $('#Add1').hide();
-            $('#Add2').hide();
-            $('#Add3').hide();
+            $('.Add1').hide();
+            $('.Add2').hide();
+            $('.Cancel1').hide();
             document.getElementById("textarea").style.borderColor="green";
-
-
-            $("#Edit1").click(function(){
-                $("#Edit1").hide();
-                $("#Edit2").hide();
-                $("#Edit3").hide();
-                $('#Add').show();
-                $('#Add1').show();
-                $('#Add2').show();
-            });
         });
 
+        function cancelComment(commentId){
+            $('#Add1'+commentId).hide();
+            $('#Add2'+commentId).hide();
+            $('#Cancel1'+commentId).hide();
+            $('#Edit1'+commentId).show();
+            $('#Edit3'+commentId).show();
+            $('#button-form'+commentId).show();
+
+        }
+        
+        function editComment(commentId){
+            $('#Edit1'+commentId).hide();
+            $('#Edit3'+commentId).hide();
+            $('#button-form'+commentId).hide();
+            $('#Add1'+commentId).show();
+            $('#Add2'+commentId).show();
+            $('#Cancel1'+commentId).show();
+        }
+
+        function addComment(commentId,blogId){
+            $.ajax({
+                url: `http://blogshivam.herokuapp.com/blogs/${blogId}/comments/${commentId}`,
+                method: "PUT",
+                dataType: 'json',
+                data: {
+                    comment: document.getElementById('Add2'+commentId).value
+                },
+                success: function(response){
+                    document.getElementById('Edit3'+commentId).innerHTML= document.getElementById('Add2'+commentId).value;
+                },
+                error: function(error) {
+                    alert("error");
+                }
+            });
+
+                $('#Add1'+commentId).hide();
+                $('#Add2'+commentId).hide();
+                $('#Cancel1'+commentId).hide();
+                $('#button-form'+commentId).show();
+                $('#Edit1'+commentId).show();
+                $('#Edit3'+commentId).show();
+        }
+
+
+        function deleteComment(commentId,blogId){
+            alert("Confirm Delete Comment");
+            $.ajax({
+                url: `http://blogshivam.herokuapp.com/blogs/${blogId}/comments/${commentId}`,
+                method: "DELETE",
+                success: function(response){
+                    $('#comment'+commentId).remove();
+                },
+                error: function(error) {
+                    alert("error");
+                }
+            });
+        };
 
     </script>
 

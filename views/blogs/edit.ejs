@@ -12,7 +12,7 @@
                 <input  class="form-control" type="text" name="blog[image]" value="<%= blog.image %>">
             </div>
             <div class="form-group">
-                <input  class="form-control" type="text" name="blog[description]" value="<%= blog.description %>">
+                <textarea class="form-control" type="text" name="blog[description]" placeholder="description" Required cols="50" rows="10"><%= blog.description %></textarea>
             </div>
             <div class="form-group">
                 <button  class="btn btn-lg btn-primary btn-block" >Update</button>

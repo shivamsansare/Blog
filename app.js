@@ -22,6 +22,7 @@ app.use(require("express-session")({
 }));
 
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 app.set("view engine","ejs");
 app.use(express.static(__dirname+"/public"));
@@ -48,7 +49,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new GoogleStrategy({
     clientID: keys.google.clientID,
     clientSecret: keys.google.clientSecret,
-    callbackURL: "http://localhost:4000/auth/google/callback",
+    callbackURL: "http://blogshivam.herokuapp.com/auth/google/callback",
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
@@ -110,8 +111,8 @@ app.get("*",function(req,res){
     res.render("404")
 });
 
-//const PORT=5000;
+const PORT=5000;
 
-app.listen(process.env.PORT,process.env.IP,function(req,res){
+app.listen(PORT,process.env.IP,function(req,res){
     console.log("hello");
 });
